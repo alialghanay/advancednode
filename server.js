@@ -43,13 +43,6 @@ myDB(async client => {
   });
   // route end
   
-  app.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/' }),
-    function(req, res) {
-      res.redirect('/');
-  });
-
-  
   // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
     done(null, user._id)
@@ -60,7 +53,7 @@ myDB(async client => {
   });
   
   passport.use(new LocalStrategy((username, password, done) => {
-    myDB.findOne({ username: username }, (err, user) => {
+    myDataBase.findOne({ username: username }, (err, user) => {
       console.log(`User ${username} attempted to log in.`);
       if (err) return done(err);
       if (!user) return done(null, false);
@@ -69,6 +62,37 @@ myDB(async client => {
     });
   }));
 
+  app.post('/login', 
+    passport.authenticate('local', { failureRedirect: '/' }),
+    function(req, res) {
+      res.redirect('/');
+    }
+  );
+
+  function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/');
+  };
+
+  app
+ .route('/profile')
+ .get(ensureAuthenticated, (req,res) => {
+    res.render('profile', {username: req.user.username});
+ });
+
+ app.route('/logout')
+  .get((req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
+  app.use((req, res, next) => {
+    res.status(404)
+      .type('text')
+      .send('Not Found');
+  });
 
   // Be sure to add this...
 }).catch(e => {
