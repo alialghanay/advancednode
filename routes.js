@@ -62,9 +62,10 @@ module.exports = function (app, myDataBase) {
 
   app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
+  function(req, res, next) {
     // Successful authentication, redirect home.
     req.session.user_id = req.user.id;
+    console.log(req.session);
     res.redirect('/chat', );
   });
 
