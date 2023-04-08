@@ -34,7 +34,7 @@ module.exports = function (app, myDataBase) {
     callbackURL: "https://exciting-gray-event.glitch.me/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+    myDataBase.findOne({ githubId: profile.id }, function (err, user) {
       return done(err, user);
     });
   }
