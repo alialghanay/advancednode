@@ -50,6 +50,7 @@ myDB(async client => {
 // app.listen out here...
 const PORT = process.env.PORT || 3000;
 http.listen(PORT, () => {
+  io.connect('https://exciting-gray-event.glitch.me/')
   io.on('connection', socket => {
     console.log('A user has connected');
   });

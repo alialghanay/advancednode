@@ -1,5 +1,5 @@
 /*global io*/
-let socket = io('https://exciting-gray-event.glitch.me/chat');
+let socket = io();
 
 $(document).ready(function () {
   // Form submittion with new message in field with id 'm'
