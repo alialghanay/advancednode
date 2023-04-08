@@ -65,7 +65,6 @@ module.exports = function (app, myDataBase) {
   function(req, res, next) {
     // Successful authentication, redirect home.
     req.session.user_id = req.user.id;
-    console.log(req.session);
     res.redirect('/chat', );
   });
 
