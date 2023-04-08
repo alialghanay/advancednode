@@ -33,21 +33,34 @@ module.exports = function (app, myDataBase) {
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "https://exciting-gray-event.glitch.me/auth/github/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-    myDataBase.findOne({ githubId: profile.id }, function (err, user) {
-      console.log(profile);
-      const profileDoc = JSON.stringify(profile);
-      fs.writeFile("output.json", profileDoc, 'utf8', function (err) {
-        if (err) {
-        console.log("An error occured while writing JSON Object to File.");
-        return console.log(err);
-    }
-    console.log("JSON file has been saved.");
-});
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      return done(err, user);
-    });
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    myDataBase.findOneAndUpdate(
+      { id: profile.id },
+      {
+        $setOnInsert: {
+          id: profile.id,
+          username: profile.username,
+          name: profile.displayName || 'John Doe',
+          photo: profile.photos[0].value || '',
+          email: Array.isArray(profile.emails)
+            ? profile.emails[0].value
+            : 'No public email',
+          created_on: new Date(),
+          provider: profile.provider || ''
+        },
+        $set: {
+          last_login: new Date()
+        },
+        $inc: {
+          login_count: 1
+        }
+      },
+      { upsert: true, new: true },
+      (err, doc) => {
+        return cb(null, doc.value);
+      }
+    );
   }
 ));
 }
