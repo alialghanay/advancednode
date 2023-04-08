@@ -2,6 +2,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 const { ObjectID } = require('mongodb');
+const GitHubStrategy = require('passport-github').Strategy;
+require('dotenv').config();
+
 
 module.exports = function (app, myDataBase) {
     // Serialization and deserialization here...
@@ -24,4 +27,16 @@ module.exports = function (app, myDataBase) {
       return done(null, user);
     });
   }));
+
+  passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "https://exciting-gray-event.glitch.me/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
 }

@@ -1,7 +1,7 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 const { ObjectID } = require('mongodb');
+
 
 module.exports = function (app, myDataBase) {
   // 
@@ -10,7 +10,8 @@ module.exports = function (app, myDataBase) {
       title: 'Connected to Database',
       message: 'Please login',
       showLogin: true,
-      showRegistration: true
+      showRegistration: true,
+      showSocialAuth: true
     });
   });
 
@@ -55,6 +56,16 @@ module.exports = function (app, myDataBase) {
       res.redirect('/profile');
     }
   );
+
+  app.get('/auth/github',
+  passport.authenticate('github'));
+
+  app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
   function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
