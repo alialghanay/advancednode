@@ -65,7 +65,7 @@ module.exports = function (app, myDataBase) {
   function(req, res) {
     // Successful authentication, redirect home.
     req.session.user_id = req.user.id;
-    res.redirect('/chat');
+    res.redirect('/chat', );
   });
 
   function ensureAuthenticated(req, res, next) {
@@ -89,7 +89,7 @@ module.exports = function (app, myDataBase) {
   });
 
   app.route('/chat')
-   .get((req, res) => {
+   .get(ensureAuthenticated, (req, res) => {
     res.render('chat', {
       user: req.user
     });
