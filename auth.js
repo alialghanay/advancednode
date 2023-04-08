@@ -35,6 +35,8 @@ module.exports = function (app, myDataBase) {
   },
   function(accessToken, refreshToken, profile, done) {
     myDataBase.findOne({ githubId: profile.id }, function (err, user) {
+      if (err) return done(err);
+      if (!user) return done(null, false);
       return done(err, user);
     });
   }
