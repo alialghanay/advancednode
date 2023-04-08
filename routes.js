@@ -64,7 +64,8 @@ module.exports = function (app, myDataBase) {
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    req.session.user_id = req.user.id;
+    res.redirect('/chat');
   });
 
   function ensureAuthenticated(req, res, next) {
@@ -86,6 +87,13 @@ module.exports = function (app, myDataBase) {
     req.logout();
     res.redirect('/');
   });
+
+  app.route('/chat')
+   .get((req, res) => {
+    res.render('chat', {
+      user: req.user
+    });
+   })
 
   app.use((req, res, next) => {
     res.status(404)
