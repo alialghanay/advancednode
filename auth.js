@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { ObjectID } = require('mongodb');
 const GitHubStrategy = require('passport-github').Strategy;
 require('dotenv').config();
-
+const fs = require('fs');
 
 module.exports = function (app, myDataBase) {
     // Serialization and deserialization here...
@@ -35,6 +35,15 @@ module.exports = function (app, myDataBase) {
   },
   function(accessToken, refreshToken, profile, done) {
     myDataBase.findOne({ githubId: profile.id }, function (err, user) {
+      console.log(profile);
+      const profileDoc = JSON.stringify(profile);
+      fs.writeFile("output.json", profileDoc, 'utf8', function (err) {
+        if (err) {
+        console.log("An error occured while writing JSON Object to File.");
+        return console.log(err);
+    }
+    console.log("JSON file has been saved.");
+});
       if (err) return done(err);
       if (!user) return done(null, false);
       return done(err, user);
