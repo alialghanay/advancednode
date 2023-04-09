@@ -10,6 +10,7 @@ const routes = require('./routes.js');
 const auth = require('./auth.js');
 
 const app = express();
+const http = require('http').createServer(app);
 
 
 
@@ -44,14 +45,11 @@ myDB(async client => {
   });
 });
 // db connaction end
-
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
-
 // app.listen out here...
-const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
-  io.on('connection', socket => {
+http.listen(process.env.PORT || 3000);
+
+let io = require('socket.io')(http);
+
+io.on('connection', socket => {
     console.log('A user has connected');
   });
-});
