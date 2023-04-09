@@ -1,9 +1,6 @@
-const passport = require('passport');
-const bcrypt = require('bcrypt');
-const { ObjectID } = require('mongodb');
 
 
-module.exports = function (app, myDataBase) {
+module.exports = function (app, myDataBase, passport) {
   // 
   app.route('/').get((req, res) => {
     res.render('index', {

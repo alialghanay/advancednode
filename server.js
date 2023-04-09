@@ -4,12 +4,15 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
+const { ObjectID } = require('mongodb');
+const LocalStrategy = require('passport-local');
+const app = express();
 const routes = require('./routes.js');
 const auth = require('./auth.js');
 
-const app = express();
 const http = require('http').createServer(app);
 
 
@@ -36,8 +39,8 @@ app.set('view engine', 'pug');
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
   
-  routes(app, myDataBase);
-  auth(app, myDataBase);
+  routes(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy);
+  auth(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy);
   
 }).catch(e => {
   app.route('/').get((req, res) => {
