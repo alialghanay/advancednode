@@ -36,8 +36,7 @@ module.exports = function (app, myDataBase, passport, bcrypt, ObjectID, LocalStr
             } else {
               // The inserted document is held within
               // the ops property of the doc
-              res.send('done')
-              next(null, doc.ops[0]);
+              next();
             }
           }
         )
