@@ -9,4 +9,4 @@ $(document).ready(function () {
 });
 
 /*global io*/
-let socket = io();
+let socket = io('https://exciting-gray-event.glitch.me/');

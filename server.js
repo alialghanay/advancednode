@@ -10,8 +10,7 @@ const routes = require('./routes.js');
 const auth = require('./auth.js');
 
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+
 
 
 // app.use
@@ -46,6 +45,8 @@ myDB(async client => {
 });
 // db connaction end
 
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 // app.listen out here...
 const PORT = process.env.PORT || 3000;
