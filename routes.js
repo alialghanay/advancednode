@@ -7,6 +7,17 @@ module.exports = function (
   LocalStrategy,
   GitHubStrategy
 ) {
+  
+  function ensureAuthenticated(req, res, next) {
+    console.log(" we are in ensureAuthenticated function...");
+    if (req.isAuthenticated()) {
+      console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
+      return next();
+    }
+    console.log("line 77 redirect to home page...");
+    res.redirect("/");
+  }
+  
   //
   app.route("/").get((req, res) => {
     res.render("index", {
@@ -25,6 +36,11 @@ module.exports = function (
       res.redirect("/");
     }
   );
+  
+  app.route("/logout").get((req, res) => {
+    req.logout();
+    res.redirect("/");
+  });
 
   app.route("/register").post(
     (req, res, next) => {
@@ -65,28 +81,14 @@ module.exports = function (
         return next();
       }
       console.log(" line 66 redirect to porfile...");
-      res.redirect("./profile");
+      return res.redirect("./profile");
     }
   );
 
-  function ensureAuthenticated(req, res, next) {
-    console.log(" we are in ensureAuthenticated function...");
-    if (req.isAuthenticated()) {
-      console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
-      return next();
-    }
-    console.log("line 77 redirect to home page...");
-    res.redirect("/");
-  }
-
   app.route("/profile").get((req, res) => {
-    res.render("profile", { username: req.user.username });
+    res.render("profile", { username: 'req.user.username' });
   });
 
-  app.route("/logout").get((req, res) => {
-    req.logout();
-    res.redirect("/");
-  });
 
   app.get("/auth/github", passport.authenticate("github"));
 

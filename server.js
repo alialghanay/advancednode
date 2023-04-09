@@ -49,6 +49,7 @@ myDB(async (client) => {
     LocalStrategy,
     GitHubStrategy
   );
+
   auth(
     app,
     myDataBase,
@@ -58,6 +59,8 @@ myDB(async (client) => {
     LocalStrategy,
     GitHubStrategy
   );
+  
+  
 }).catch((e) => {
   app.route("/").get((req, res) => {
     res.render("index", { title: e, message: "Unable to connect to database" });
