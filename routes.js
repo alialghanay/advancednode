@@ -87,7 +87,7 @@ module.exports = function (app, myDataBase) {
   function(req, res, next) {
     // Successful authentication, redirect home.
     req.session.user_id = req.user.id;
-    res.redirect('https://exciting-gray-event.glitch.me/chats');
+    res.redirect('/chats');
   });
   
   app.route('/chats')
