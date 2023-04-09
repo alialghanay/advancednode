@@ -1,9 +1,7 @@
-const { ObjectID } = require('mongodb');
-const GitHubStrategy = require('passport-github').Strategy;
 require('dotenv').config();
 const fs = require('fs');
 
-module.exports = function (app, myDataBase, passport) {
+module.exports = function (app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy, GitHubStrategy) {
     // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
     done(null, user._id)

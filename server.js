@@ -9,6 +9,7 @@ const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const { ObjectID } = require('mongodb');
 const LocalStrategy = require('passport-local');
+const GitHubStrategy = require('passport-github').Strategy;
 const app = express();
 const routes = require('./routes.js');
 const auth = require('./auth.js');
@@ -39,8 +40,8 @@ app.set('view engine', 'pug');
 myDB(async client => {
   const myDataBase = await client.db('database').collection('users');
   
-  routes(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy);
-  auth(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy);
+  routes(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy, GitHubStrategy);
+  auth(app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy, GitHubStrategy);
   
 }).catch(e => {
   app.route('/').get((req, res) => {

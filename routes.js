@@ -1,6 +1,4 @@
-
-
-module.exports = function (app, myDataBase, passport) {
+module.exports = function (app, myDataBase, passport, bcrypt, ObjectID, LocalStrategy, GitHubStrategy) {
   // 
   app.route('/').get((req, res) => {
     res.render('index', {
@@ -38,6 +36,7 @@ module.exports = function (app, myDataBase, passport) {
             } else {
               // The inserted document is held within
               // the ops property of the doc
+              res.send('done')
               next(null, doc.ops[0]);
             }
           }
