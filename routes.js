@@ -41,14 +41,14 @@ module.exports = function (
               password: hash,
             },
             (err, doc) => {
-              console.log('done inserting...');
+              console.log("done inserting...");
               if (err) {
-                console.log('redirect to home page...');
+                console.log("redirect to home page...");
                 res.redirect("/");
               } else {
                 // The inserted document is held within
                 // the ops property of the doc
-                console.log('no error...');
+                console.log("no error...");
                 next();
               }
             }
@@ -58,27 +58,28 @@ module.exports = function (
     },
     passport.authenticate("local", { failureRedirect: "/" }),
     (req, res, next) => {
-      console.log('checking authenticat...');
-      if (req.isAuthenticated()) {
-        console.log('checking authenticat... > everthing ok...');
+      console.log("checking authenticat...");
+      if (!req.isAuthenticated()) {
+        console.log("checking authenticat... > everthing not ok...");
+        console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
         return next();
       }
-      console.log(' line 66 redirect to porfile...');
-      res.redirect("/profile");
+      console.log(" line 66 redirect to porfile...");
+      res.redirect("./profile");
     }
   );
 
   function ensureAuthenticated(req, res, next) {
-    console.log(' we are in ensureAuthenticated function...');
+    console.log(" we are in ensureAuthenticated function...");
     if (req.isAuthenticated()) {
-      console.log('req.isAuthenticated() eqlus ->', req.isAuthenticated());
+      console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
       return next();
     }
-    console.log('line 77 redirect to porfile...');
+    console.log("line 77 redirect to home page...");
     res.redirect("/");
   }
 
-  app.route("/profile").get(ensureAuthenticated, (req, res) => {
+  app.route("/profile").get((req, res) => {
     res.render("profile", { username: req.user.username });
   });
 
@@ -109,7 +110,7 @@ module.exports = function (
   });
 
   app.use((req, res, next) => {
-    console.log('line 112');
+    console.log("line 112");
     res.status(404).type("text").send("Not Found");
   });
 };
