@@ -82,17 +82,21 @@ module.exports = function (app, myDataBase) {
 
   app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res, next) {
+  function(req, res) {
     // Successful authentication, redirect home.
     req.session.user_id = req.user.id;
-    console.log(req.session);
-    res.redirect('/chat');
+    res.redirect('/chats');
   });
-
+  
+  app.route('/chats')
+  .get((req, res) => {
+    res.json({status: 'working'})
+  })
+  
   app.route('/chat')
-   .get((req, res) => {
-    console.log(req.user);
-    res.render('chat');
+   .get(ensureAuthenticated, (req, res) => {
+    console.log(req.session);
+    res.render('chat', {user: req.user});
    })
 
   app.use((req, res, next) => {
