@@ -31,9 +31,9 @@ module.exports = function (
 
   app.post(
     "/login",
-    passport.authenticate("local", { failureRedirect: "/" }),
+    passport.authenticate("local", {  successRedirect: '/profile', failureRedirect: "/" }),
     function (req, res) {
-      res.redirect("/");
+      res.redirect("/profile");
     }
   );
   
