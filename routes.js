@@ -57,17 +57,6 @@ module.exports = function (app, myDataBase) {
     }
   );
 
-  app.get('/auth/github',
-  passport.authenticate('github'));
-
-  app.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res, next) {
-    // Successful authentication, redirect home.
-    req.session.user_id = req.user.id;
-    res.redirect('/chat', );
-  });
-
   function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
@@ -87,12 +76,23 @@ module.exports = function (app, myDataBase) {
     req.logout();
     res.redirect('/');
   });
+  
+    app.get('/auth/github',
+  passport.authenticate('github'));
+
+  app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res, next) {
+    // Successful authentication, redirect home.
+    req.session.user_id = req.user.id;
+    console.log(req.session);
+    res.redirect('/chat');
+  });
 
   app.route('/chat')
    .get((req, res) => {
-    res.render('chat', {
-      user: req.user
-    });
+    console.log(req.user);
+    res.render('chat');
    })
 
   app.use((req, res, next) => {
