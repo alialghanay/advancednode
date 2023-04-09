@@ -41,11 +41,14 @@ module.exports = function (
               password: hash,
             },
             (err, doc) => {
+              console.log('done inserting...');
               if (err) {
+                console.log('redirect to home page...');
                 res.redirect("/");
               } else {
                 // The inserted document is held within
                 // the ops property of the doc
+                console.log('no error...');
                 next();
               }
             }
@@ -55,9 +58,12 @@ module.exports = function (
     },
     passport.authenticate("local", { failureRedirect: "/" }),
     (req, res, next) => {
+      console.log('checking authenticat...');
       if (req.isAuthenticated()) {
+        console.log('checking authenticat... > everthing ok...');
         return next();
       }
+      console.log('redirect to porfile...');
       res.redirect("/profile");
     }
   );
@@ -102,6 +108,7 @@ module.exports = function (
   });
 
   app.use((req, res, next) => {
+    console.log(req);
     res.status(404).type("text").send("Not Found");
   });
 };

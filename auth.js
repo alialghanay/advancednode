@@ -22,11 +22,20 @@ module.exports = function (
     new LocalStrategy((username, password, done) => {
       myDataBase.findOne({ username: username }, (err, user) => {
         console.log(`User ${username} attempted to log in.`);
-        if (err) return done(err);
-        if (!user) return done(null, false);
+        if (err) {
+          console.log('got an error in auth.js file line 26 ->');
+          console.log(err);
+          return done(err);
+        };
+        if (!user) {
+          console.log('no user!...');
+          return done(null, false)
+        };
         if (!bcrypt.compareSync(password, user.password)) {
+          console.log('using bcrypt for user password!...');
           return done(null, false);
         }
+        console.log('user info ->', user);
         return done(null, user);
       });
     })
