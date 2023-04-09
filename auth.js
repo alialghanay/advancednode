@@ -35,7 +35,7 @@ module.exports = function (
           console.log('using bcrypt for user password!...');
           return done(null, false);
         }
-        console.log('user info ->', user);
+        console.log('user info ->');
         return done(null, user);
       });
     })

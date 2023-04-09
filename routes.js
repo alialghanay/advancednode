@@ -63,17 +63,18 @@ module.exports = function (
         console.log('checking authenticat... > everthing ok...');
         return next();
       }
-      console.log('redirect to porfile...');
+      console.log(' line 66 redirect to porfile...');
       res.redirect("/profile");
     }
   );
 
   function ensureAuthenticated(req, res, next) {
-    console.log(req);
+    console.log(' we are in ensureAuthenticated function...');
     if (req.isAuthenticated()) {
-      console.log(req);
+      console.log('req.isAuthenticated() eqlus ->', req.isAuthenticated());
       return next();
     }
+    console.log('line 77 redirect to porfile...');
     res.redirect("/");
   }
 
@@ -108,7 +109,7 @@ module.exports = function (
   });
 
   app.use((req, res, next) => {
-    console.log(req);
+    console.log('line 112');
     res.status(404).type("text").send("Not Found");
   });
 };
