@@ -67,9 +67,9 @@ myDB(async (client) => {
   });
 });
 // db connaction end
+let usercount = 0;
 // app.listen out here...
-http.listen(process.env.PORT || 3000);
-console.log(process.env.PORT || 3000);
+http.listen(process.env.PORT || 3000, );
 
 let io = require("socket.io")(http);
 
