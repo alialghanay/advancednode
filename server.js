@@ -72,14 +72,14 @@ let currentUsers = 0;
 const port = process.env.PORT || 3000; 
 http.listen(port, () => {
   console.log("Server is running at port " + port + "...");
-  ++currentUsers;
-  console.log('user count is -> ', currentUsers);
 });
 
 let io = require("socket.io")(http);
 
 io.on("connection", (socket) => {
   console.log("A user has connected");
+  ++currentUsers;
+  io.emit('user count', currentUsers);
 });
 
-io.emit('user count', currentUsers);
+
