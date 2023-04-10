@@ -90,7 +90,7 @@ module.exports = function (
     }
   );
 
-  app.route("/profile").get((req, res) => {
+  app.route("/profile").get(ensureAuthenticated, (req, res) => {
     console.log('hi from profile!');
     res.render("profile", { username: req.user.username });
   });
@@ -104,13 +104,13 @@ module.exports = function (
     function (req, res, next) {
       // Successful authentication, redirect home.
       req.session.user_id = req.user.id;
-      res.redirect("/chats");
+      res.redirect("/chat");
     }
   );
 
-  app.route("/chats").get((req, res) => {
-    res.json({ status: "working" });
-  });
+  // app.route("/chats").get((req, res) => {
+  //   res.json({ status: "working" });
+  // });
 
   app.route("/chat").get(ensureAuthenticated, (req, res) => {
     console.log(req.session);

@@ -58,7 +58,7 @@ module.exports = function (
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         callbackURL:
-          "https://exciting-gray-event.glitch.me/auth/github/callback",
+          "https://healthy-palm-truck.glitch.me/auth/github/callback",
       },
       function (accessToken, refreshToken, profile, cb) {
         // console.log(profile);
