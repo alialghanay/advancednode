@@ -14,10 +14,10 @@ module.exports = function (
   function ensureAuthenticated(req, res, next) {
     console.log(" we are in ensureAuthenticated function...");
     if (req.isAuthenticated()) {
-      console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
+      // console.log("req.isAuthenticated() eqlus ->", req.isAuthenticated());
       return next();
     }
-    console.log("line 77 redirect to home page...");
+    // console.log("line 77 redirect to home page...");
     res.redirect("/");
   }
   
@@ -113,7 +113,7 @@ module.exports = function (
   // });
 
   app.route("/chat").get(ensureAuthenticated, (req, res) => {
-    console.log(req.session);
+    console.log('hello chat!...');
     res.render("chat", { user: req.user });
   });
 

@@ -12,8 +12,8 @@ module.exports = function (
 ) {
   // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
-    console.log('Hello, from serializeUser, User -> ', user);
-    console.log('----- end ----');
+    console.log('Hello, from serializeUser, User -> ');
+    // console.log('----- end ----');
     done(null, user._id);
   });
   passport.deserializeUser((id, done) => {
