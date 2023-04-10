@@ -12,10 +12,21 @@ module.exports = function (
 ) {
   // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
+    console.log('Hello, from serializeUser, User -> ', user);
+    console.log('----- end ----');
     done(null, user._id);
   });
   passport.deserializeUser((id, done) => {
-    myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {});
+    console.log('Hello, from deserializeUser, id -> ', id);
+    myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
+      if(err) {
+        console.log('in finding db we had error line 23');
+        console.log('----- end ----');
+        return err;
+      }else {
+        return done(null, doc);
+      }
+    });
   });
 
   passport.use(

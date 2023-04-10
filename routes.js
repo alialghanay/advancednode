@@ -1,3 +1,6 @@
+require("dotenv").config();
+const fs = require("fs");
+
 module.exports = function (
   app,
   myDataBase,
@@ -37,9 +40,11 @@ module.exports = function (
     }
   );
   
-  app.route("/logout").get((req, res) => {
-    req.logout();
-    res.redirect("/");
+  app.get('/logout', function(req, res, next){
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
   });
 
   app.route("/register").post(
@@ -65,7 +70,7 @@ module.exports = function (
                 // The inserted document is held within
                 // the ops property of the doc
                 console.log("no error...");
-                next();
+                next(null, doc.ops[0]);
               }
             }
           );
@@ -86,7 +91,8 @@ module.exports = function (
   );
 
   app.route("/profile").get((req, res) => {
-    res.render("profile", { username: 'req.user.username' });
+    console.log('hi from profile!');
+    res.render("profile", { username: req.user.username });
   });
 
 

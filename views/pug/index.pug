@@ -1,4 +1,4 @@
-html
+html(lang='en')
   head
     title FCC Advanced Node and Express
     meta(name='description', content='Home page')
@@ -20,11 +20,11 @@ html
       h2.center Login Form
       form(action='/login', method='post').center
         div
-          label Username:
-          input(type='text', name='username')
+          label(for='un', title='Enter Your Username') Username:
+          input(type='text', name='username', id='un')
         div
-          label Password:
-          input(type='password', name='password')
+          label(for='pwd', title='Enter the password') Password:
+          input(type='password', name='password', id='pwd')
         div
           input(type='submit', value='Log In')
           
@@ -33,11 +33,11 @@ html
       h2.center Registration Form
       form(action='/register', method='post').center
         div
-          label Username:
-          input(type='text', name='username')
+          label(for='run', title='Enter Your New Username') Username:
+          input(type='text', name='username', id='run')
         div
-          label Password:
-          input(type='password', name='password')
+          label(for='rpwd', title='Enter the New Password') Password:
+          input(type='password', name='password', id='rpwd')
         div
           input(type='submit', value='Register')
 
