@@ -19,4 +19,6 @@ socket.on('user', data => {
   $('#messages').append($('<li>').html('<b>' + message + '</b>'));
 });
 
-socket.on('chat message', )
+socket.on('chat message', data => {
+  $('#messages').append($('<li>').html('<b>' + data.name + '</b> ' + data.message))
+})
