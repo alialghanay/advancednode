@@ -34,11 +34,10 @@ module.exports = function (
   app.post(
     "/login",
     passport.authenticate("local", {
-      successRedirect: "/profile",
-      failureRedirect: "/",
+      failureRedirect: "/"
     }),
     function (req, res) {
-      res.redirect("/profile");
+      res.redirect("/chat");
     }
   );
 
@@ -90,7 +89,7 @@ module.exports = function (
         return next();
       }
       console.log(" line 66 redirect to porfile...");
-      return res.redirect("./profile");
+      return res.redirect("/profile");
     }
   );
 
