@@ -94,9 +94,15 @@ io.on("connection", (socket) => {
   console.log("user " + socket.request.user.username + " connected");
   ++currentUsers;
   io.emit("user", {
-    username: socket.request.username,
-    curre
+    username: socket.request.user.username,
+    currentUsers,
+    connected: true
   });
+  socket.on('chat message', message => {
+    io.emit('chat message', {
+      name: socket.request.user.username, message
+    })
+  })
   socket.on("disconnect", () => {
     /*anything you want to do on disconnect*/
     console.log("user " + socket.request.user.username + " disconnected");
