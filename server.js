@@ -13,6 +13,11 @@ const GitHubStrategy = require("passport-github").Strategy;
 const app = express();
 const routes = require("./routes.js");
 const auth = require("./auth.js");
+const passportSocketIo = require("passport.socketio");
+const cookieParser = require("cookie-parser");
+const MongoStore = require('connect-mongo')(session);
+const URI = process.env.MONGO_URI;
+const store = new MongoStore({ url: URI });
 
 const http = require("http").createServer(app);
 
@@ -75,6 +80,17 @@ http.listen(port, () => {
 });
 
 let io = require("socket.io")(http);
+
+io.use(
+  passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    key: 'express.sid',
+    secret: process.env.SESSION_SECRET,
+    store: store,
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail
+  })
+);
 
 io.on("connection", (socket) => {
   console.log("A user has connected");
