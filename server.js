@@ -93,6 +93,7 @@ io.use(
 );
 
 io.on("connection", (socket) => {
+  console.log(socket.request.user);
   console.log('user ' + socket.request.user.username + ' connected');
   ++currentUsers;
   io.emit('user count', currentUsers);
