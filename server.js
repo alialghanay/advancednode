@@ -15,10 +15,10 @@ const routes = require("./routes.js");
 const auth = require("./auth.js");
 const passportSocketIo = require("passport.socketio");
 const cookieParser = require("cookie-parser");
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require("connect-mongo")(session);
 const URI = process.env.MONGO_URI;
 const store = new MongoStore({ url: URI });
-const { onAuthorizeSuccess, onAuthorizeFail } = require('./onAuthorizeFun.js');
+const { onAuthorizeSuccess, onAuthorizeFail } = require("./onAuthorizeFun.js");
 const http = require("http").createServer(app);
 
 // app.use
@@ -32,6 +32,8 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false },
+    store: store,
+    key: "express.sid",
   })
 );
 app.use(passport.initialize());
@@ -64,8 +66,6 @@ myDB(async (client) => {
     LocalStrategy,
     GitHubStrategy
   );
-  
-  
 }).catch((e) => {
   app.route("/").get((req, res) => {
     res.render("index", { title: e, message: "Unable to connect to database" });
@@ -74,7 +74,7 @@ myDB(async (client) => {
 // db connaction end
 let currentUsers = 0;
 // app.listen out here...
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 http.listen(port, () => {
   console.log("Server is running at port " + port + "...");
 });
@@ -84,24 +84,22 @@ let io = require("socket.io")(http);
 io.use(
   passportSocketIo.authorize({
     cookieParser: cookieParser,
-    key: 'express.sid',
+    key: "express.sid",
     secret: process.env.SESSION_SECRET,
-    store: store,
-    success: onAuthorizeSuccess,
-    fail: onAuthorizeFail
+    store: store
   })
 );
 
 io.on("connection", (socket) => {
-  console.log(socket.request.user);
-  console.log('user ' + socket.request.user.username + ' connected');
+  console.log("user " + socket.request.user.username + " connected");
   ++currentUsers;
-  io.emit('user count', currentUsers);
-  socket.on('disconnect', () => {
+  io.emit("user", {
+    username: socket.request.username,
+    curre
+  });
+  socket.on("disconnect", () => {
     /*anything you want to do on disconnect*/
-    console.log('user ' + socket.request.user.username + ' disconnected');
+    console.log("user " + socket.request.user.username + " disconnected");
     --currentUsers;
   });
 });
-
-

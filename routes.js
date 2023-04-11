@@ -10,7 +10,6 @@ module.exports = function (
   LocalStrategy,
   GitHubStrategy
 ) {
-  
   function ensureAuthenticated(req, res, next) {
     console.log(" we are in ensureAuthenticated function...");
     if (req.isAuthenticated()) {
@@ -20,7 +19,7 @@ module.exports = function (
     // console.log("line 77 redirect to home page...");
     res.redirect("/");
   }
-  
+
   //
   app.route("/").get((req, res) => {
     res.render("index", {
@@ -34,16 +33,21 @@ module.exports = function (
 
   app.post(
     "/login",
-    passport.authenticate("local", {  successRedirect: '/profile', failureRedirect: "/" }),
+    passport.authenticate("local", {
+      successRedirect: "/profile",
+      failureRedirect: "/",
+    }),
     function (req, res) {
       res.redirect("/profile");
     }
   );
-  
-  app.get('/logout', function(req, res, next){
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
+
+  app.get("/logout", function (req, res, next) {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
     });
   });
 
@@ -91,10 +95,9 @@ module.exports = function (
   );
 
   app.route("/profile").get(ensureAuthenticated, (req, res) => {
-    console.log('hi from profile!');
+    console.log("hi from profile!");
     res.render("profile", { username: req.user.username });
   });
-
 
   app.get("/auth/github", passport.authenticate("github"));
 
@@ -113,7 +116,7 @@ module.exports = function (
   // });
 
   app.route("/chat").get(ensureAuthenticated, (req, res) => {
-    console.log('hello chat!...');
+    console.log("hello chat!...");
     res.render("chat", { user: req.user });
   });
 

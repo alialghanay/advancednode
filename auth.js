@@ -12,18 +12,18 @@ module.exports = function (
 ) {
   // Serialization and deserialization here...
   passport.serializeUser((user, done) => {
-    console.log('Hello, from serializeUser, User -> ');
+    console.log("Hello, from serializeUser, User -> ");
     // console.log('----- end ----');
     done(null, user._id);
   });
   passport.deserializeUser((id, done) => {
-    console.log('Hello, from deserializeUser, id -> ', id);
+    console.log("Hello, from deserializeUser, id -> ", id);
     myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
-      if(err) {
-        console.log('in finding db we had error line 23');
-        console.log('----- end ----');
+      if (err) {
+        console.log("in finding db we had error line 23");
+        console.log("----- end ----");
         return err;
-      }else {
+      } else {
         return done(null, doc);
       }
     });
@@ -34,19 +34,19 @@ module.exports = function (
       myDataBase.findOne({ username: username }, (err, user) => {
         console.log(`User ${username} attempted to log in.`);
         if (err) {
-          console.log('got an error in auth.js file line 26 ->');
+          console.log("got an error in auth.js file line 26 ->");
           console.log(err);
           return done(err);
-        };
+        }
         if (!user) {
-          console.log('no user!...');
-          return done(null, false)
-        };
-        if (!bcrypt.compareSync(password, user.password)) {
-          console.log('using bcrypt for user password!...');
+          console.log("no user!...");
           return done(null, false);
         }
-        console.log('no errors');
+        if (!bcrypt.compareSync(password, user.password)) {
+          console.log("using bcrypt for user password!...");
+          return done(null, false);
+        }
+        console.log("no errors");
         return done(null, user);
       });
     })
