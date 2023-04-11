@@ -18,7 +18,7 @@ const cookieParser = require("cookie-parser");
 const MongoStore = require('connect-mongo')(session);
 const URI = process.env.MONGO_URI;
 const store = new MongoStore({ url: URI });
-
+const { onAuthorizeSuccess, onAuthorizeFail } = require('./onAuthorizeFun.js');
 const http = require("http").createServer(app);
 
 // app.use
@@ -93,12 +93,12 @@ io.use(
 );
 
 io.on("connection", (socket) => {
-  console.log("A user has connected");
+  console.log('user ' + socket.request.user.username + ' connected');
   ++currentUsers;
   io.emit('user count', currentUsers);
   socket.on('disconnect', () => {
     /*anything you want to do on disconnect*/
-    console.log('hello form user disconnect socket!...');
+    console.log('user ' + socket.request.user.username + ' disconnected');
     --currentUsers;
   });
 });
