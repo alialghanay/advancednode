@@ -80,10 +80,11 @@ io.on("connection", (socket) => {
   console.log("A user has connected");
   ++currentUsers;
   io.emit('user count', currentUsers);
-  io.on("disconnect", (socket) => {
-  console.log("A user has disconnected");
-  --currentUsers;
-  io.emit('user count', currentUsers);
+  socket.on('disconnect', () => {
+    /*anything you want to do on disconnect*/
+    console.log('hello form user disconnect socket!...');
+    --currentUsers;
+  });
 });
-});
+
 
