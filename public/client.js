@@ -14,9 +14,9 @@ var socket = io();
 socket.on('user count', function(data) {
   console.log('hello form user count socket!...');
   console.log(data);
-});
-
-socket.on('disconnect', () => {
+  socket.on('disconnect', (data) => {
   /*anything you want to do on disconnect*/
   console.log('hello form user disconnect socket!...');
+  console.log(data);
+});
 });
