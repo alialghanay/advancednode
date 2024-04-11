@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FCC Advanced Node and Express</title>
+    <meta name="description" content="Home page">
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <h1 class="border center">FCC Advanced Node and Express</h1>
+    <h2 class="center" id="pug-success-message">
+        Looks like this page is being rendered from Pug into HTML!
+        #{title}
+    </h2>
+    <p id="pug-variable" class="message"></p>
+
+    <hr>
+
+    <h2 class="center">Login Form</h2>
+    <form action="/login" method="post" class="center">
+        <div>
+            <label for="un" title="Enter Your Username">Username:</label>
+            <input type="text" name="username" id="un">
+        </div>
+        <div>
+            <label for="pwd" title="Enter the password">Password:</label>
+            <input type="password" name="password" id="pwd">
+        </div>
+        <div>
+            <input type="submit" value="Log In">
+        </div>
+    </form>
+
+    <hr>
+
+    <h2 class="center">Registration Form</h2>
+    <form action="/register" method="post" class="center">
+        <div>
+            <label for="run" title="Enter Your New Username">Username:</label>
+            <input type="text" name="username" id="run">
+        </div>
+        <div>
+            <label for="rpwd" title="Enter the New Password">Password:</label>
+            <input type="password" name="password" id="rpwd">
+        </div>
+        <div>
+            <input type="submit" value="Register">
+        </div>
+    </form>
+
+    <hr>
+
+    <h2 class="center">Social Login</h2>
+    <div class="login center">
+        <a href="/auth/github">Login with Github!</a>
+    </div>
+</body>
+</html>
